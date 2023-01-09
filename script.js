@@ -1,12 +1,16 @@
 // Author: Roeland L.C. Kemp
 
+const MAX_IP = 256**4;
+
+function isCidr(cidr) {
+    return !(cidr < 0 || cidr > 32) && !isNaN(cidr);
+}
+
 function cidrToBinary(cidr) {
-    if (Number.isNaN(cidr)) {
+    if (!isCidr(cidr)) {
         return null;
     }
-    if (cidr < 1 || cidr > 32) {
-        return null;
-    }
+
     let binaryString = "";
     for (let i = 0; i < cidr; i++) {
         binaryString += 1;
@@ -34,18 +38,18 @@ function binaryToDecIP(binaryString) {
         return null;
     }
 
-    while (binaryString.length <= 32) {
+    while (binaryString.length < 32) {
         binaryString = "0" + binaryString;
     }
     
-    return parseInt(binaryString.substring(0,8), 2)
-    + "." + parseInt(binaryString.substring(8,16), 2)
-    + "." + parseInt(binaryString.substring(16,24), 2)
-    + "." + parseInt(binaryString.substring(24,32), 2);
+    return (parseInt(binaryString.substring(0,8), 2)) 
+    + "." + (parseInt(binaryString.substring(8,16), 2)) 
+    + "." + (parseInt(binaryString.substring(16,24), 2)) 
+    + "." + (parseInt(binaryString.substring(24,32), 2));
 }
 
 function findSubnetSize(cidr) {
-    return 2**Math.abs(cidr - 32);
+    return isCidr(cidr) ? 2**Math.abs(cidr - 32) : null;
 }
 
 function isIpAddr(ipAddr) {
@@ -68,30 +72,19 @@ function compareIP(ip1, ip2) {
     return IPToNum(ip2) - IPToNum(ip1);
 }
 
-function isCidr(cidr) {
-    return (cidr < 0 || cidr > 32);
-}
 
-
-function generateSubnet(startIP, cidr) {
-    if (!isIpAddr(startIP)) {
-        return null;
-    }
-    if (!isCidr(cidr)) {
-        return null;
-    }
-    startIndex = IPToNum(startIP);
-    endIndex = startIndex + findSubnetSize(cidr);
-
-    for (let i = startIndex; i < endIndex; i++) {
-
-    }
-
+function cidrToSubnetMask(cidr) {
+    return isCidr(cidr) ? binaryToDecIP(cidrToBinary(cidr)) : null;
 }
 
 function IPToNum(IPString) {
+    if (!isIpAddr(IPString)) {
+        return null;
+    }
+
     let IP = IPString.split(".");
-    return IP[0] * 256**3 + (IP[1] * 256**2) + (IP[2] * 256) + parseInt(IP[3]);
+    return IP[0] * 256**3 + (IP[1] * 256**2) 
+    + (IP[2] * 256) + parseInt(IP[3]);
 }
 
 function numToIP(num) {
@@ -114,9 +107,60 @@ function calcNewIP (oldIP, offset) {
     
     let newNum = IPToNum(oldIP) + Math.floor(offset);
 
-    if (newNum < 0 || newNum >= 256**4) {
+    if (newNum < 0 || newNum >= MAX_IP) {
         return null;
     }
     
     return numToIP(newNum);
 }
+
+function findSubnetRange(ip, cidr) {
+    let subnetSize = findSubnetSize(cidr);
+    let ipNum = IPToNum(ip);
+    let subnetStartNum = ipNum - (ipNum % subnetSize);
+    
+    let startIP = numToIP(subnetStartNum);
+    let endIP = numToIP(subnetStartNum + subnetSize - 1);
+    return startIP + " - " + endIP;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const MIN_CIDR = 5;
+const MAX_CIDR = 30;
+
+const ip_and_cidr_text = document.getElementById("ip_and_cidr_text");
+const subnet_mask_text = document.getElementById("subnet_mask_text");
+const subnet_start_text = document.getElementById("subnet_start_text");
+const subnet_end_text = document.getElementById("subnet_end_text");
+
+subnet_start_text.onkeypress = function(e) {
+    return checkInput(e);
+};
+
+subnet_end_text.onkeypress = function(e) {
+    return checkInput(e);
+};
+
+function checkInput(e) {
+    let chr = String.fromCharCode(e.which);
+    return ("1234567890.".indexOf(chr) >= 0);
+} 
+
+let IP;
+let cidr;
+let subnetMask;
+let answer;
+
+function newQuestion() {
+    IP = numToIP(Math.floor(MAX_IP * Math.random()));
+    cidr = Math.floor(((MAX_CIDR - MIN_CIDR) * Math.random()) + MIN_CIDR);
+    ip_and_cidr_text.textContent = IP + "/" + cidr;    
+
+    subnetMask = cidrToSubnetMask(cidr);
+    subnet_mask_text.textContent = subnetMask;
+
+    answer = findSubnetRange(IP, cidr).split(" - ");
+}
+
+newQuestion();

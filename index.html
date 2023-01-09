@@ -7,9 +7,27 @@
     <script defer src="script.js"></script>
 </head>
 <body>
-    <div id="header">Subnet Trainer</div>
-    
-    
+    <header>Subnet Trainer</header>
+    <br>
+    <div id="ip_and_cidr" class="main">
+        <div id="ip_and_cidr_label" class="left">IP Address / CIDR</div>
+        <div id="ip_and_cidr_text" class="right"></div>
+    </div>
+    <br><br>
+    <div id="subnet_mask" class="main">
+        <div id="subnet_mask_label" class="left">Subnet Mask</div>
+        <div id="subnet_mask_text" class="right"></div>
+    </div>
+    <br><br>
+    <div id="subnet_start" class="main">
+        <div id="subnet_start_label" class="left">Default Gateway<br><small>(first IP Address)</small></div>
+        <textarea id="subnet_start_text" class="right" maxlength="15"></textarea>
+    </div>
+    <br>
+    <div id="subnet_end" class="main">
+        <div id="subnet_end_label" class="left">Broadcast Address<br><small>(last IP Address)</small></div>
+        <textarea id="subnet_end_text" class="right" maxlength="15"></textarea>
+    </div>
     <br>
     <a href="https://rocknrolo.github.io/">RocknRolo</a>
 </body>

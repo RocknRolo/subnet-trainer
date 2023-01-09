@@ -1,28 +1,56 @@
-
 body {
-    background-color: #222;
+    background: #222;
     margin: 0;
     padding: 0;
 }
 
-a {
-    display: flex;
-    color: gray;
-    justify-content: center;
-}
-
-a:visited {
-    color: gray;
-}
-
-a:hover {
-    color: yellow;
-}
-
-#header {
+header {
     display: flex;
     justify-content: center;
     color: white;
     font-size: 4rem;
 }
+
+.main {
+    display: grid;
+    grid-template-columns: 32% 18% 18% 32%;
+    color: grey;
+    font-size: 2rem;
+}
+
+.left {
+    grid-column: 2;
+}
+
+.right {
+    grid-column: 3;
+    font-family: consolas;
+}
+
+textarea {
+    height: 2.5rem;
+    border: none;
+    background: #111;
+    outline: none;
+    resize: none;
+    font-family: consolas;
+    font-size: 2rem;
+    color: grey;
+}
+
+a {
+    display: flex;
+    color: darkgoldenrod;
+    justify-content: center;
+}
+
+a:visited {
+    color: yellow;
+}
+
+a:hover {
+    color: orangered;
+}
+
+
 

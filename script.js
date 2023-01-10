@@ -1,7 +1,5 @@
 // Author: Roeland L.C. Kemp
 
-const MAX_IP = 256**4;
-
 function isCidr(cidr) {
     return !(cidr < 0 || cidr > 32) && !isNaN(cidr);
 }
@@ -65,14 +63,6 @@ function isIpAddr(ipAddr) {
     return true;
 }
 
-function compareIP(ip1, ip2) {
-    if (!isIpAddr(ip1) || !isIpAddr(ip2)) {
-        return null;
-    }
-    return IPToNum(ip2) - IPToNum(ip1);
-}
-
-
 function cidrToSubnetMask(cidr) {
     return isCidr(cidr) ? binaryToDecIP(cidrToBinary(cidr)) : null;
 }
@@ -99,21 +89,6 @@ function numToIP(num) {
    return IPString + num % 256; 
 }
 
-
-function calcNewIP (oldIP, offset) {
-    if (!isIpAddr(oldIP) || isNaN(offset)) {
-        return null;
-    }
-    
-    let newNum = IPToNum(oldIP) + Math.floor(offset);
-
-    if (newNum < 0 || newNum >= MAX_IP) {
-        return null;
-    }
-    
-    return numToIP(newNum);
-}
-
 function findSubnetRange(ip, cidr) {
     let subnetSize = findSubnetSize(cidr);
     let ipNum = IPToNum(ip);
@@ -133,6 +108,8 @@ const ip_and_cidr_text = document.getElementById("ip_and_cidr_text");
 const subnet_mask_text = document.getElementById("subnet_mask_text");
 const subnet_start_text = document.getElementById("subnet_start_text");
 const subnet_end_text = document.getElementById("subnet_end_text");
+const score_text = document.getElementById("score_text");
+const mistakes_text = document.getElementById("mistakes_text");
 
 subnet_start_text.onkeypress = function(e) {
     return checkInput(e);
@@ -143,6 +120,9 @@ subnet_end_text.onkeypress = function(e) {
 };
 
 function checkInput(e) {
+    if (e.which == 13) {
+        checkAnswer();
+    }
     let chr = String.fromCharCode(e.which);
     return ("1234567890.".indexOf(chr) >= 0);
 } 
@@ -152,15 +132,36 @@ let cidr;
 let subnetMask;
 let answer;
 
+let score = 0;
+let mistakes = 0;
+
 function newQuestion() {
-    IP = numToIP(Math.floor(MAX_IP * Math.random()));
+    IP = numToIP(Math.floor(256**4 * Math.random()));
     cidr = Math.floor(((MAX_CIDR - MIN_CIDR) * Math.random()) + MIN_CIDR);
     ip_and_cidr_text.textContent = IP + "/" + cidr;    
 
     subnetMask = cidrToSubnetMask(cidr);
     subnet_mask_text.textContent = subnetMask;
 
+    subnet_start_text.value = '';
+    subnet_end_text.value = '';
+
+    subnet_start_text.focus()
+
     answer = findSubnetRange(IP, cidr).split(" - ");
+}
+
+function checkAnswer() {
+    if (subnet_start_text.value === answer[0] && subnet_end_text.value === answer[1]) {
+        score++;
+        score_text.textContent = score;
+        newQuestion();
+    } else {
+        score--;
+        score_text.textContent = score;
+        mistakes++;
+        mistakes_text.textContent = mistakes;
+    }
 }
 
 newQuestion();

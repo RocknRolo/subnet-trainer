@@ -8,7 +8,7 @@
 </head>
 <body>
     <header>Subnet Trainer</header>
-    <br>
+    <br><br>
     <div id="ip_and_cidr" class="main">
         <div id="ip_and_cidr_label" class="left">IP Address / CIDR</div>
         <div id="ip_and_cidr_text" class="right"></div>
@@ -27,6 +27,17 @@
     <div id="subnet_end" class="main">
         <div id="subnet_end_label" class="left">Broadcast Address<br><small>(last IP Address)</small></div>
         <textarea id="subnet_end_text" class="right" maxlength="15"></textarea>
+    </div>
+    <div class="center">
+        <input type="submit" onclick="checkAnswer()">
+    </div>
+    <div id="sm">
+        <div id="score">
+            <div id="score_label">Score: </div><div id="score_text">0</div>
+        </div>
+        <div id="mistakes">
+            <div id="mistakes_label">Mistakes: </div><div id="mistakes_text">0</div>
+        </div>
     </div>
     <br>
     <a href="https://rocknrolo.github.io/">RocknRolo</a>

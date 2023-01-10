@@ -13,9 +13,9 @@ header {
 
 .main {
     display: grid;
-    grid-template-columns: 32% 18% 18% 32%;
+    grid-template-columns: 1fr 242px 242px 1fr;
     color: grey;
-    font-size: 2rem;
+    font-size: 1.8rem;
 }
 
 .left {
@@ -25,23 +25,47 @@ header {
 .right {
     grid-column: 3;
     font-family: consolas;
+
+}
+
+.center {
+    display: flex;
+    justify-content: center;
 }
 
 textarea {
-    height: 2.5rem;
-    border: none;
+    height: 2.2rem;
     background: #111;
+    border: none;
     outline: none;
     resize: none;
     font-family: consolas;
-    font-size: 2rem;
+    font-size: 1.8rem;
     color: grey;
+}
+
+#sm {
+    display: grid;
+    grid-template-columns: 1fr 242px 242px 1fr;
+}
+
+#score {
+    color: green;
+    font-size: 2rem;
+    grid-column: 2;
+    text-align: center;
+}
+
+#mistakes {
+    color: darkred;
+    font-size: 2rem;
+    text-align: center;
 }
 
 a {
     display: flex;
-    color: darkgoldenrod;
     justify-content: center;
+    color: darkgoldenrod;
 }
 
 a:visited {
@@ -51,6 +75,3 @@ a:visited {
 a:hover {
     color: orangered;
 }
-
-
-

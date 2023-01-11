@@ -20,11 +20,12 @@ header {
 
 .left {
     grid-column: 2;
+    background: #2A2A2A;
 }
 
 .right {
     grid-column: 3;
-    font-family: consolas;
+    font-family: monospace;
 
 }
 
@@ -33,13 +34,22 @@ header {
     justify-content: center;
 }
 
+button {
+    background: #222;
+    color: lightgrey;
+}
+
+button:hover {
+    background: #333;
+}
+
 textarea {
     height: 2.2rem;
     background: #111;
     border: none;
     outline: none;
     resize: none;
-    font-family: consolas;
+    font-family: monospace;
     font-size: 1.8rem;
     color: grey;
 }

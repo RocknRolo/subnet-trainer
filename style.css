@@ -37,6 +37,8 @@ header {
 button {
     background: #222;
     color: lightgrey;
+    width: 120px;
+    height: 60px;
 }
 
 button:hover {

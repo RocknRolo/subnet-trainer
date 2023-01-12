@@ -11,7 +11,7 @@ function cidrToBinary(cidr) {
 
     let binaryString = "";
     for (let i = 0; i < cidr; i++) {
-        binaryString += 1;
+        binaryString += "1";
     }
     while (binaryString.length < 32) {
         binaryString += "0";
@@ -73,7 +73,7 @@ function IPToNum(IPString) {
     }
 
     let IP = IPString.split(".");
-    return IP[0] * 256**3 + (IP[1] * 256**2) 
+    return (IP[0] * 256**3) + (IP[1] * 256**2) 
     + (IP[2] * 256) + parseInt(IP[3]);
 }
 
